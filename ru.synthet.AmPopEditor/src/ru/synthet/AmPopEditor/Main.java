@@ -33,4 +33,8 @@ public class Main {
 
         form.setVisible(true);
     }
+
+    protected static void log(Object aThing){
+        System.out.println(String.valueOf(aThing));
+    }
 }
