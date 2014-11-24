@@ -60,7 +60,7 @@ public class MainForm extends JFrame {
 
     private void openPopulation(File populationFile) {
 
-        progressBar1.setMaximum(100);
+
         if (populationFile.canRead()) {
             byte[] result = null;
             try {
@@ -72,7 +72,7 @@ public class MainForm extends JFrame {
                 Main.log(ex);
             }
 
-            textField1.setText(populationFile.getName()+" Length: "+populationFile.length()+" "+ result.length);
+            textField1.setText(populationFile.getName()+" Length: "+ result.length);
         }
 
     }
@@ -84,8 +84,8 @@ public class MainForm extends JFrame {
      */
     byte[] readAndClose(InputStream aInput){
         //carries the data from input to output :
-        progressBar1.setValue(0);
-        byte[] bucket = new byte[1024*1024];
+
+        byte[] bucket = new byte[32*1024];
         ByteArrayOutputStream result = null;
         try  {
             try {
