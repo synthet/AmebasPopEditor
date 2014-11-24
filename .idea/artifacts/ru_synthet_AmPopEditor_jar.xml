@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ru.synthet.AmPopEditor:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ru_synthet_AmPopEditor_jar</output-path>
+    <root id="archive" name="ru.synthet.AmPopEditor.jar">
+      <element id="module-output" name="ru.synthet.AmPopEditor" />
+    </root>
+  </artifact>
+</component>
