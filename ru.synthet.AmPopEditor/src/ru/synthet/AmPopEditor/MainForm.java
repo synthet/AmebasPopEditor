@@ -1,11 +1,17 @@
 package ru.synthet.AmPopEditor;
 
+import ru.synthet.AmPopEditor.Utils.ByteUtils;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by bragin_va on 24.11.14.
@@ -15,8 +21,15 @@ public class MainForm extends JFrame {
     private JPanel rootPanel;
     private JTextField textField1;
     private JTable table1;
-    private JProgressBar progressBar1;
-    JFileChooser openFile;
+    private JTextField textField2;
+    private JTextField textField3;
+    private JTextField textField4;
+    private JTextField textField5;
+    private JTextField textField6;
+    private JTextField textField7;
+    private JFileChooser openFile;
+    private FormData formData;
+    private ByteBuffer buffer;
 
     public MainForm() {
         super("Synth.AmPopEditor");
@@ -59,14 +72,28 @@ public class MainForm extends JFrame {
     }
 
     private void openPopulation(File populationFile) {
-
+        if (buffer != null)
+            buffer.clear();
 
         if (populationFile.canRead()) {
             byte[] result = null;
             try {
                 InputStream input =  new BufferedInputStream(new FileInputStream(populationFile));
                 result = readAndClose(input);
-                Main.log(result[0]);
+                ByteBuffer buffer = ByteBuffer.wrap(result);
+                buffer.order(ByteOrder.LITTLE_ENDIAN);
+                ArrayList<Integer> popSizes = new ArrayList<Integer>();
+                for(int i=0; i<6; i++) {
+                    if (buffer.hasRemaining()) {
+                        int size = buffer.getInt();
+                        popSizes.add(size);
+                        Main.log("Size " + i + ": " + size);
+                    }
+                }
+                formData = new FormData(popSizes);
+                setData(formData);
+                popSizes.clear();
+
             }
             catch (FileNotFoundException ex){
                 Main.log(ex);
@@ -113,5 +140,15 @@ public class MainForm extends JFrame {
         }
         return result.toByteArray();
     }
+
+    public void setData(FormData data) {
+        textField2.setText(data.getPopSize(0));
+        textField3.setText(data.getPopSize(1));
+        textField4.setText(data.getPopSize(2));
+        textField5.setText(data.getPopSize(3));
+        textField6.setText(data.getPopSize(4));
+        textField7.setText(data.getPopSize(5));
+    }
+
 
 }
